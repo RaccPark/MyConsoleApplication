@@ -9,10 +9,10 @@ int main()
     char canvas[106 + 1];
 
     char player[] = "(^__^)";
-    int player_pos = 10;
+    int player_pos = 10;    // player의 위치
 
     char enemy[] = "(*__*)";
-    int enemy_pos = 50;
+    int enemy_pos = 50; // enemy의 위치
 
     char bullet[] = "->";
     int bullet_pos = player_pos + strlen(player);   // 총알 발사 위치
@@ -42,7 +42,7 @@ int main()
 
             bullet_pos++;
 
-            if (bullet_pos == enemy_pos) {
+            if ((bullet_pos + strlen(bullet) - 1) == enemy_pos) {
                 strcpy(bullet, "\0");
                 bullet_flag = false;
             }
@@ -50,7 +50,7 @@ int main()
 
         printf("%s\r", canvas);
         Sleep(100);
-        loop_count += 1;
+        loop_count++;
     }
 
     return 0;
