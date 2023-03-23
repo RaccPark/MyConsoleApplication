@@ -9,13 +9,13 @@ int main()
     char canvas[106 + 1];
 
     char player[] = "(^__^)";
-    int player_pos = 10;    // player의 위치
+    int player_pos = 10;
 
     char enemy[] = "(*__*)";
-    int enemy_pos = 50; // enemy의 위치
+    int enemy_pos = 50;
 
     char bullet[] = "->";
-    int bullet_pos = player_pos + strlen(player);   // 총알 발사 위치
+    int bullet_pos = player_pos + strlen(player);   // bullet start pos
     bool bullet_flag = false;
 
     int loop_count = 0;
@@ -24,19 +24,19 @@ int main()
     while (true) {
         for (int i = 0; i < (100 + 6); i++)
             canvas[i] = ' ';
-        canvas[106] = '\0';
+        canvas[106] = '\0';  // ends with null character 
 
-        // Draw Player
+        // Draw Player in canvas
         for (int i = 0; i < strlen(player); i++)
             canvas[player_pos + i] = player[i];
-        // Draw Enemy
+        // Draw Enemy in canvas
         for (int i = 0; i < strlen(enemy); i++)
             canvas[enemy_pos + i] = enemy[i];
 
         // Check Time
         if (loop_count >= 30) bullet_flag = true;
 
-        // Draw Bullet
+        // Draw Bullet in canvas
         if (bullet_flag) {
             for (int i = 0; i < strlen(bullet); i++)
                 canvas[bullet_pos + i] = bullet[i];
