@@ -20,6 +20,7 @@ int main()
 
     int loop_count = 0;
 
+    // Game loop
     while (true) {
         for (int i = 0; i < (100 + 6); i++)
             canvas[i] = ' ';
