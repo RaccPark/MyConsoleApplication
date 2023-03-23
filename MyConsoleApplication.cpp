@@ -64,19 +64,36 @@ int main()
     ENTITY enemy = { "(*__*)" , 50 };
     ENTITY bullet = { "->" , player.pos + strlen(player.shape) };
 
-    canvas = initCanvas(canvasSize);    // malloc for canvas
+    char enemy[] = "(*__*)";
+    int enemy_pos = 50; // enemy의 위치
+
+    char bullet[] = "->";
+    int bullet_pos = player_pos + strlen(player);   // 총알 발사 위치
+    bool bullet_flag = false;
 
     int loop_count = 0;
     bool gameover_flag = false;
 
+    // Game loop
     while (true) {
-        // Clear Canvas
-        clearCanvas(canvas, canvasSize);
+        for (int i = 0; i < (100 + 6); i++)
+            canvas[i] = ' ';
+        canvas[106] = '\0';
 
-        // Draw player
-        player_draw(player.shape, player.pos, canvas);
-        // Draw enemy
-        enemy_draw(enemy.shape, enemy.pos, canvas);
+        // Draw Player
+        for (int i = 0; i < strlen(player); i++)
+            canvas[player_pos + i] = player[i];
+        // Draw Enemy
+        for (int i = 0; i < strlen(enemy); i++)
+            canvas[enemy_pos + i] = enemy[i];
+
+        // Check Time
+        if (loop_count >= 30) bullet_flag = true;
+
+        // Draw Bullet
+        if (bullet_flag) {
+            for (int i = 0; i < strlen(bullet); i++)
+                canvas[bullet_pos + i] = bullet[i];
 
         if (loop_count >= 30) {
             // Draw bullet
