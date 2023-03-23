@@ -67,7 +67,6 @@ int main()
     canvas = initCanvas(canvasSize);    // malloc for canvas
 
     int loop_count = 0;
-    bool gameover_flag = false;
 
     while (true) {
         // Clear Canvas
@@ -88,7 +87,6 @@ int main()
             {
                 strcpy(bullet.shape, "\0");
                 strcpy(enemy.shape, "(T__T)");
-                gameover_flag = true;
             }
         }
 
