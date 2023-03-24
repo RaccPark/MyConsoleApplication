@@ -49,17 +49,15 @@ void bullet_draw(ENTITY bullet, char* canvas)
     canvas_draw(canvas, bullet.shape, bullet.pos);
 }
 
-void player_update()
-{
-
-}
-void enemy_update()
-{
-
-}
 void bullet_update(ENTITY* bullet)
 {
     bullet->pos++;
+}
+bool bullet_collide_check(ENTITY bullet, ENTITY target)
+{
+    if ((bullet.pos + strlen(bullet.shape)) == target.pos)
+        return true;
+    return false;
 }
 
 int main()
@@ -90,17 +88,18 @@ int main()
             bullet_draw(bullet, canvas);
             bullet_update(&bullet);
 
+
             // Remove bullet when enemy was hit
-            if ((bullet.pos + strlen(bullet.shape)) == enemy.pos)
+            if (bullet_collide_check(bullet, enemy))
             {
-                strcpy(bullet.shape, "\0");
                 strcpy(enemy.shape, "(T__T)");
-                gameover_flag = true;
+                strcpy(bullet.shape, "\0");
+                enemy_draw(enemy, canvas);
+                bullet_draw(bullet, canvas);
             }
         }
 
         renderCanvas(canvas);
-        if (gameover_flag == true) break;
         Sleep(100);
         loop_count++;
     }
