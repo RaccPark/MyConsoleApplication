@@ -22,38 +22,45 @@ char* initCanvas(int canvasSize)
     char* canvas = (char*)malloc(sizeof(char) * (canvasSize + 1));
     return canvas;
 }
-
 void deinitCanvas(char* canvas)
 {
     free(canvas);
 }
-
 void renderCanvas(const char* canvas)
 {
     printf("%s\r", canvas);
 }
-
 void canvas_draw(char* canvas, char* entity, int entity_pos)
 {
     for (int i = 0; i < strlen(entity); i++)
         canvas[entity_pos + i] = entity[i];
 }
 
-void player_draw(char* player, int player_pos, char* canvas)
+void player_draw(ENTITY player, char* canvas)
 {
-    canvas_draw(canvas, player, player_pos);
+    canvas_draw(canvas, player.shape, player.pos);
+}
+void enemy_draw(ENTITY enemy, char* canvas)
+{
+    canvas_draw(canvas, enemy.shape, enemy.pos);
+}
+void bullet_draw(ENTITY bullet, char* canvas)
+{
+    canvas_draw(canvas, bullet.shape, bullet.pos);
 }
 
-void enemy_draw(char* enemy, int enemy_pos, char* canvas)
+void player_update()
 {
-    canvas_draw(canvas, enemy, enemy_pos);
-}
 
-void bullet_draw(char* bullet, int bullet_pos, char* canvas)
+}
+void enemy_update()
 {
-    canvas_draw(canvas, bullet, bullet_pos);
-}
 
+}
+void bullet_update(ENTITY* bullet)
+{
+    bullet->pos++;
+}
 
 int main()
 {
@@ -67,30 +74,33 @@ int main()
     canvas = initCanvas(canvasSize);    // malloc for canvas
 
     int loop_count = 0;
+    bool gameover_flag = false;
 
     while (true) {
         // Clear Canvas
         clearCanvas(canvas, canvasSize);
 
         // Draw player
-        player_draw(player.shape, player.pos, canvas);
+        player_draw(player, canvas);
         // Draw enemy
-        enemy_draw(enemy.shape, enemy.pos, canvas);
+        enemy_draw(enemy, canvas);
 
         if (loop_count >= 30) {
             // Draw bullet
-            bullet_draw(bullet.shape, bullet.pos, canvas);
-            bullet.pos++;
+            bullet_draw(bullet, canvas);
+            bullet_update(&bullet);
 
             // Remove bullet when enemy was hit
-            if ((bullet.pos + strlen(bullet.shape) - 1) == enemy.pos)
+            if ((bullet.pos + strlen(bullet.shape)) == enemy.pos)
             {
                 strcpy(bullet.shape, "\0");
                 strcpy(enemy.shape, "(T__T)");
+                gameover_flag = true;
             }
         }
 
         renderCanvas(canvas);
+        if (gameover_flag == true) break;
         Sleep(100);
         loop_count++;
     }
